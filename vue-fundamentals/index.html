@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>VueJS Course</title>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+      <p>{{ fullName() }}</p>
+      <p><a v-bind:href="url" target="_blank">Google</a></p>
+      <p v-html="rawUrl"></p>
+      <p>{{ typeof age }}</p>
+      <hr />
+
+      <label>First Name</label>
+      <input type="text" v-model.lazy.trim="firstName" />
+
+      <label>Middle Name</label>
+      <input type="text" @keyup.enter="updateMiddleName($event)" />
+
+      <!-- NOTE v-model is the same as v-bind + @input -->
+      <label>Last Name</label>
+      <input
+        type="text"
+        :value="lastName"
+        @input.prevent="updateLastName('Last name input event triggered!', $event)"
+      />
+
+      <label>Age</label>
+      <input type="number" v-model="age" />
+
+      <!-- NOTE Can add system modifiers e.g., shift-click @click.shift=increment -->
+      <button type="button" @click="increment">+</button>
+      <button type="button" @click="age--">-</button>
+    </div>
+
+    <!-- <div id="apptwo"> -->
+    <!--   {{ firstName }} -->
+    <!--   {{ lastName }} -->
+    <!-- </div> -->
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

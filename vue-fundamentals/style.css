@@ -1,0 +1,15 @@
+body {
+  font-size: 22px;
+}
+
+input[type="text"] {
+  margin: 10px 0;
+  display: block;
+}
+
+/* NOTE v-cloak is read as HTML attribute so can apply styles */
+/* After Vue app mounts, v-cloak will be removed (so will styles) */
+/* Test by slow network speed and reload */
+[v-cloak] {
+  display: none;
+}
