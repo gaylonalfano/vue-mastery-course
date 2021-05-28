@@ -8,32 +8,112 @@
   </head>
   <body>
     <div id="app" v-cloak>
-      <p>{{ fullName() }}</p>
-      <p><a v-bind:href="url" target="_blank">Google</a></p>
-      <p v-html="rawUrl"></p>
-      <p>{{ typeof age }}</p>
-      <hr />
+      <div v-if="showUrls">
+        <p>{{ fullName }}</p>
+        <p><a v-bind:href="url" target="_blank">Google</a></p>
+        <p v-html="rawUrl"></p>
+        <p>{{ typeof age }}</p>
+        <hr />
+      </div>
 
-      <label>First Name</label>
-      <input type="text" v-model.lazy.trim="firstName" />
+      <div v-if="showCircle">
+        <label> <input type="checkbox" v-model="isPurple" /> Purple </label>
 
-      <label>Middle Name</label>
-      <input type="text" @keyup.enter="updateMiddleName($event)" />
+        <div>
+          <select v-model="selectedColor">
+            <option disabled value="">Please select one</option>
+            <option value="">White</option>
+            <option value="text-black">Black</option>
+            <option value="text-orange">Orange</option>
+          </select>
+          <span>Selected: {{ selectedColor }}</span>
+        </div>
 
-      <!-- NOTE v-model is the same as v-bind + @input -->
-      <label>Last Name</label>
-      <input
-        type="text"
-        :value="lastName"
-        @input.prevent="updateLastName('Last name input event triggered!', $event)"
-      />
+        <label>Circle Size</label>
+        <input type="number" v-model="size" />
 
-      <label>Age</label>
-      <input type="number" v-model="age" />
+        <label>Circle Rotation</label>
+        <input type="number" v-model="rotationDegrees" />
 
-      <!-- NOTE Can add system modifiers e.g., shift-click @click.shift=increment -->
-      <button type="button" @click="increment">+</button>
-      <button type="button" @click="age--">-</button>
+        <div
+          class="circle"
+          :class="[circleCSSClasses, selectedColor]"
+          :style="circleStyleObject"
+        >
+          Hi!
+        </div>
+      </div>
+
+      <div v-if="showInputs">
+        <label>First Name</label>
+        <input type="text" v-model.lazy.trim="firstName" />
+
+        <label>Middle Name</label>
+        <input type="text" @keyup.enter="updateMiddleName($event)" />
+
+        <!-- NOTE v-model is the same as v-bind + @input -->
+        <label>Last Name</label>
+        <input
+          type="text"
+          :value="lastName"
+          @input.prevent="updateLastName('Last name input event triggered!', $event)"
+        />
+
+        <label>Age</label>
+        <input type="number" v-model="age" />
+
+        <!-- NOTE Can add system modifiers e.g., shift-click @click.shift=increment -->
+        <button type="button" @click="increment">+</button>
+        <button type="button" @click="age--">-</button>
+      </div>
+
+      <div>
+        <p v-if="mode == 1">Showing the v-if directive</p>
+        <!-- NOTE Can wrap multiple els w/o changing doc structure using template -->
+        <!-- This is better than wrapping with a div as it can affect CSS bc doc structure -->
+        <template v-else-if="mode == 2">
+          <p>Bonus cotent</p>
+          <h3>v-else-if directive</h3>
+        </template>
+        <p v-else>v-else directive</p>
+        <i v-show="mode == 1">v-show</i>
+
+        <select v-model="mode">
+          <!-- <option disable value="">Select display mode</option> -->
+          <option value="1">v-if</option>
+          <option value="2">v-else-if</option>
+          <option value="3">v-else</option>
+        </select>
+      </div>
+
+      <div>
+        <ul>
+          <li v-for="( bird, index ) in birds" :class="bird" :key="bird">
+            {{ bird }} -- {{ index }}
+          </li>
+        </ul>
+
+        <hr />
+
+        <ul>
+          <li v-for="person in people">
+            <div v-for="(value, key, index) in person">
+              {{ index }}::{{ key }}:{{ value }}
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <button type="button" class="move" @click.prevent="moveToBottom">
+          Move to Bottom
+        </button>
+        <div class="card" v-for="person in people" :key="person.name">
+          <h3>{{ person.name }}</h3>
+          <p>{{ person.message }}</p>
+          <input type="text" />
+        </div>
+      </div>
     </div>
 
     <!-- <div id="apptwo"> -->
